@@ -8,7 +8,7 @@ Installation
 
 install :
 
-```git clone https://github.com/TshAkETEAM/Tshake && cd Tshake && chmod +x install.sh && ./install.sh```
+```git clone https://github.com/Mohammedouda784/mohammed-sourse && cd Tshake && chmod +x install.sh && ./install.sh```
 
 ______________________________________________________________________________________________________________________
 
@@ -41,7 +41,7 @@ Run bot
 ______________________________________________________________________________________________________________________
 
 
-```./Tshake/ts```
+```./mohammed-sourse/ts```
 
 ______________________________________________________________________________________________________________________
 
