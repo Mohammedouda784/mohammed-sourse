@@ -939,7 +939,15 @@ database:srem(hash, result.sender_user_id_)
 end
 getMessage(msg.chat_id_, msg.reply_to_message_id_,ungban_by_reply)
 end
-
+if text:match("^تحديث السورس$")  then
+send(msg.chat_id_, msg.id_, 1, '☑┇تم التحديث', 1, 'md')
+os.execute('rm -rf ./libs/utils.lua')
+os.execute('cd libs && wget https://raw.githubusercontent.com/Mohammedouda784/mohammed-sourse/master/libs/utils.lua')
+os.execute('rm -rf Tshake.lua')
+os.execute('wget https://raw.githubusercontent.com/Mohammedouda784/mohammed-sourse/master/Tshake.lua')
+os.exit()
+return false
+end
 if text:match("^الغاء العام @(.*)$")   then
 local apid = {string.match(text, "^(الغاء العام) @(.*)$")}
 function ungban_by_username(extra, result, success)
