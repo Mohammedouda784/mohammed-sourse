@@ -3600,7 +3600,7 @@ if result.id_ then
 if ck_mod(result.id_, msg.chat_id_) then
 send(msg.chat_id_, msg.id_, 1, '📛┇لا تستطيع طرد\n⚠️┇الاداريين او المميزين في البوت', 1, 'md')
 else
-texts = '👤¦  العضو ✓['..result.title_..'](t.me/'..(apba[2] or 'tshaketeam')..')\n🎫¦ الايدي » {'..result.id_..'}\n🚫¦ تم الطرد من المجموعه'
+texts = '👤¦  العضو ✓['..result.title_..'](t.me/'..(apki[2] or 'tshaketeam')..')\n🎫¦ الايدي » {'..result.id_..'}\n🚫¦ تم الطرد من المجموعه'
 chat_kick(msg.chat_id_, result.id_)
 end
 else
