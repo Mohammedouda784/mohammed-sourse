@@ -3875,47 +3875,49 @@ chat_kick(msg.chat_id_, apki[2])
 tsX000(apki[2],msg,"🚫¦ تم الطرد من المجموعه")
 end
 end
-if text:match("^تنزيل الكل$") and  is_creatorbasic(msg) and not  is_sudo(msg) and msg.reply_to_message_id_ then
+if text:match("^تنزيل الكل$")and msg.reply_to_message_id_ then
 function promote_by_reply(extra, result, success)
-database:srem('tshake:'..bot_id..'mods:'..msg.chat_id_, result.sender_user_id_)
-database:srem('tshake:'..bot_id..'vipgp:'..msg.chat_id_, result.sender_user_id_)
-database:srem('tshake:'..bot_id..'owners:'..msg.chat_id_, result.sender_user_id_)
-database:srem('tshake:'..bot_id..'creator:'..msg.chat_id_, result.sender_user_id_)
-send(msg.chat_id_, msg.id_, 1, "☑️¦ تم تنزيله من جميع الرتب ✓", 1, 'md')
+if result.sender_user_id_ == tonumber(sudo_add) then
+send(msg.chat_id_, msg.id_, 1, "دكعد راحه هذا المطور الاساسي", 1, 'md')
+return false 
 end
-getMessage(msg.chat_id_, msg.reply_to_message_id_,promote_by_reply)
-end
---------------------------------------------------------------------------
-if text:match("^تنزيل الكل$") and  is_creator(msg) and not (is_creatorbasic(msg) and  is_sudo(msg)) and msg.reply_to_message_id_ then
-function promote_by_reply(extra, result, success)
-database:srem('tshake:'..bot_id..'mods:'..msg.chat_id_, result.sender_user_id_)
-database:srem('tshake:'..bot_id..'vipgp:'..msg.chat_id_, result.sender_user_id_)
-database:srem('tshake:'..bot_id..'owners:'..msg.chat_id_, result.sender_user_id_)
-send(msg.chat_id_, msg.id_, 1, "☑️¦ تم تنزيله من جميع الرتب ✓", 1, 'md')
-end
-getMessage(msg.chat_id_, msg.reply_to_message_id_,promote_by_reply)
-end
---------------------------------------------------------------------------
-if text:match("^تنزيل الكل$") and  is_owner(msg) and not (is_creatorbasic(msg) and  is_creator(msg) and  is_sudo(msg)) and msg.reply_to_message_id_ then
-function promote_by_reply(extra, result, success)
-database:srem('tshake:'..bot_id..'mods:'..msg.chat_id_, result.sender_user_id_)
-database:srem('tshake:'..bot_id..'vipgp:'..msg.chat_id_, result.sender_user_id_)
-send(msg.chat_id_, msg.id_, 1, "☑️¦ تم تنزيله من جميع الرتب ✓", 1, 'md')
-end
-getMessage(msg.chat_id_, msg.reply_to_message_id_,promote_by_reply)
-end
---------------------------------------------------------------------------
-if text:match("^تنزيل الكل$") and  is_sudo(msg)  and msg.reply_to_message_id_ then
-function promote_by_reply(extra, result, success)
+if msg.sender_user_id_ == tonumber(sudo_add) then
+database:srem('tshake:'..bot_id..'sudoo'..result.sender_user_id_..'', 'no')
+database:srem('tshake:'..bot_id..'dev', result.sender_user_id_)
 database:srem('tshake:'..bot_id..'mods:'..msg.chat_id_, result.sender_user_id_)
 database:srem('tshake:'..bot_id..'vipgp:'..msg.chat_id_, result.sender_user_id_)
 database:srem('tshake:'..bot_id..'owners:'..msg.chat_id_, result.sender_user_id_)
 database:srem('tshake:'..bot_id..'creator:'..msg.chat_id_, result.sender_user_id_)
 database:srem('tshake:'..bot_id..'creatorbasic:'..msg.chat_id_,result.sender_user_id_)
-send(msg.chat_id_, msg.id_, 1, "☑️¦ تم تنزيله من جميع الرتب ✓", 1, 'md')
+t = '( المطورين - المنشئين الاساسين - المنشئين - المدراء - الادمنيه - المميزين )'
+elseif redis:sismember('tshake:'..bot_id..'dev',msg.sender_user_id_) then
+database:srem('tshake:'..bot_id..'mods:'..msg.chat_id_, result.sender_user_id_)
+database:srem('tshake:'..bot_id..'vipgp:'..msg.chat_id_, result.sender_user_id_)
+database:srem('tshake:'..bot_id..'owners:'..msg.chat_id_, result.sender_user_id_)
+database:srem('tshake:'..bot_id..'creator:'..msg.chat_id_, result.sender_user_id_)
+database:srem('tshake:'..bot_id..'creatorbasic:'..msg.chat_id_,result.sender_user_id_)
+t = '( المنشئين الاساسين - المنشئين - المدراء - الادمنيه - المميزين )'
+elseif database:sismember('tshake:'..bot_id..'creatorbasic:'..msg.chat_id_, msg.sender_user_id_) then
+database:srem('tshake:'..bot_id..'mods:'..msg.chat_id_, result.sender_user_id_)
+database:srem('tshake:'..bot_id..'vipgp:'..msg.chat_id_, result.sender_user_id_)
+database:srem('tshake:'..bot_id..'owners:'..msg.chat_id_, result.sender_user_id_)
+database:srem('tshake:'..bot_id..'creator:'..msg.chat_id_, result.sender_user_id_)
+t = '( المنشئين - المدراء - الادمنيه - المميزين )'
+elseif database:sismember('tshake:'..bot_id..'creator:'..msg.chat_id_, msg.sender_user_id_) then
+database:srem('tshake:'..bot_id..'mods:'..msg.chat_id_, result.sender_user_id_)
+database:srem('tshake:'..bot_id..'vipgp:'..msg.chat_id_, result.sender_user_id_)
+database:srem('tshake:'..bot_id..'owners:'..msg.chat_id_, result.sender_user_id_)
+t = '( المدراء - الادمنيه - المميزين )'
+elseif database:sismember('tshake:'..bot_id..'owners:'..msg.chat_id_, msg.sender_user_id_) then
+database:srem('tshake:'..bot_id..'mods:'..msg.chat_id_, result.sender_user_id_)
+database:srem('tshake:'..bot_id..'vipgp:'..msg.chat_id_, result.sender_user_id_)
+t = '( الادمنيه - المميزين )'
+end
+send(msg.chat_id_, msg.id_, 1, "🔖┇ تم تنزيل الشخص من الرتب التاليه "..t.." \n", 1, 'md')
 end
 getMessage(msg.chat_id_, msg.reply_to_message_id_,promote_by_reply)
 end
+
 if text:match("^رفع مدير$") and (is_creator(msg) or is_creatorbasic(msg)) and msg.reply_to_message_id_ then
 if not  is_creatorbasic(msg) and database:sismember('tshake:'..bot_id..'mnaa:'..msg.chat_id_, msg.sender_user_id_)   then
 send(msg.chat_id_, msg.id_, 1, "🚫 ¦ تم منعك من الرفع  ", 1, 'md')
@@ -4452,7 +4454,7 @@ database:set('tshake:'..bot_id..'flood:max:'..msg.chat_id_,floodmax[2])
 send(msg.chat_id_, msg.id_, 1, '⛔️ ⁞ تم وضع التكرار بالطرد للعدد » *{'..floodmax[2]..'}*', 1, 'md')
 end
 end
-if text and text == "وضع رابط" and is_admin(msg) then 
+if text and text == "وضع رابط" and is_owner(msg) then 
 send(msg.chat_id_, msg.id_, 1, '💥┇ارسال الان رابط المجموعه', 1, "md") 
 database:set("keko:get:url:"..bot_id..msg.chat_id_..msg.sender_user_id_,true)
 return "keko"
@@ -5559,6 +5561,8 @@ redis:del('tshake:'..bot_id..':voice:'..text..''..msg.chat_id_..'')
 redis:del('tshake:'..bot_id..':video:'..text..''..msg.chat_id_..'')
 redis:del('tshake:'..bot_id..':gif:'..text..''..msg.chat_id_..'')
 redis:del('tshake:'..bot_id..':file:'..text..''..msg.chat_id_..'')
+redis:del('tshake:'..bot_id..':photocaption:'..text..''..msg.chat_id_..'')
+redis:del('tshake:'..bot_id..':photo:'..text..''..msg.chat_id_..'')
 redis:srem('tshake:'..bot_id..'kekore'..msg.chat_id_..'', text)
 end
 end
@@ -5643,6 +5647,8 @@ redis:del('tshake:'..bot_id..':video:'..text)
 redis:del('tshake:'..bot_id..':gif:'..text)
 redis:del('tshake:'..bot_id..':file:'..text)
 redis:del('tshake:'..bot_id..'keko'..text)
+redis:del('tshake:'..bot_id..':photo:'..keko2..''..msg.chat_id_..'', data.message_.content_.photo_.sizes_[0].photo_.persistent_id_)
+redis:del('tshake:'..bot_id..':photocaption:'..keko2..''..msg.chat_id_..'', (msg.content_.caption_ or ''))
 redis:srem('tshake:'..bot_id..'kekoresudo', text)
 end
 end
@@ -7311,28 +7317,19 @@ if keko1 == 're' then
 local keko2 = redis:get('tshake:'..bot_id..'msg'..msg.sender_user_id_..''..msg.chat_id_..'')
 if text then 
 redis:set('tshake:'..bot_id..'keko'..keko2..''..msg.chat_id_..'', text)
-elseif (data.message_.content_.sticker_) then 
-redis:set('tshake:'..bot_id..':sticker:'..keko2..''..msg.chat_id_..'', data.message_.content_.sticker_.sticker_.persistent_id_)
-elseif (data.message_.content_.photo_.sizes_[0]) then 
-redis:set('tshake:'..bot_id..':photo:'..keko2..''..msg.chat_id_..'', data.message_.content_.photo_.sizes_[0].photo_.persistent_id_)
-redis:set('tshake:'..bot_id..':photocaption:'..keko2..''..msg.chat_id_..'', (msg.content_.caption_ or ''))
-elseif (data.message_.content_.photo_.sizes_[1]) then 
-redis:set('tshake:'..bot_id..':photo:'..keko2..''..msg.chat_id_..'', data.message_.content_.photo_.sizes_[1].photo_.persistent_id_)
-redis:set('tshake:'..bot_id..':photocaption:'..keko2..''..msg.chat_id_..'', (msg.content_.caption_ or ''))
-elseif (data.message_.content_.photo_.sizes_[2]) then 
-redis:set('tshake:'..bot_id..':photo:'..keko2..''..msg.chat_id_..'', data.message_.content_.photo_.sizes_[2].photo_.persistent_id_)
-redis:set('tshake:'..bot_id..':photocaption:'..keko2..''..msg.chat_id_..'', (msg.content_.caption_ or ''))
-elseif (data.message_.content_.photo_.sizes_[3]) then 
-redis:set('tshake:'..bot_id..':photo:'..keko2..''..msg.chat_id_..'', data.message_.content_.photo_.sizes_[3].photo_.persistent_id_)
-redis:set('tshake:'..bot_id..':photocaption:'..keko2..''..msg.chat_id_..'', (msg.content_.caption_ or ''))
 elseif (data.message_.content_.voice_) then 
 redis:set('tshake:'..bot_id..':voice:'..keko2..''..msg.chat_id_..'', data.message_.content_.voice_.voice_.persistent_id_)
 elseif (data.message_.content_.video_) then 
 redis:set('tshake:'..bot_id..':video:'..keko2..''..msg.chat_id_..'', data.message_.content_.video_.video_.persistent_id_)
-elseif (data.message_.content_.animation_) then 
-redis:set('tshake:'..bot_id..':gif:'..keko2..''..msg.chat_id_..'', data.message_.content_.animation_.animation_.persistent_id_)
 elseif (data.message_.content_.document_) then
 redis:set('tshake:'..bot_id..':file:'..keko2..''..msg.chat_id_..'', data.message_.content_.document_.document_.persistent_id_)
+elseif (data.message_.content_.sticker_) then 
+redis:set('tshake:'..bot_id..':sticker:'..keko2..''..msg.chat_id_..'', data.message_.content_.sticker_.sticker_.persistent_id_)
+elseif (data.message_.content_.animation_) then 
+redis:set('tshake:'..bot_id..':gif:'..keko2..''..msg.chat_id_..'', data.message_.content_.animation_.animation_.persistent_id_)
+elseif (data.message_.content_.photo_.sizes_) then 
+redis:set('tshake:'..bot_id..':photo:'..keko2..''..msg.chat_id_..'', data.message_.content_.photo_.sizes_[0].photo_.persistent_id_)
+redis:set('tshake:'..bot_id..':photocaption:'..keko2..''..msg.chat_id_..'', (msg.content_.caption_ or ''))
 else
 end -- end if text 
 redis:sadd('tshake:'..bot_id..'kekore'..msg.chat_id_..'', keko2)
@@ -7346,14 +7343,14 @@ if text then
 redis:set('tshake:'..bot_id..'keko'..keko2..'', text)
 elseif (msg.content_.sticker_) then 
 redis:set('tshake:'..bot_id..':sticker:'..keko2, msg.content_.sticker_.sticker_.persistent_id_)
-elseif (data.message_.content_.photo_.sizes_[0]) then 
+elseif (msg..content_.animation_) then 
+redis:set('tshake:'..bot_id..':gif:'..keko2, data.message_.content_.animation_.animation_.persistent_id_)
+elseif (data.message_.content_.photo_.sizes_) then 
 redis:set('tshake:'..bot_id..':photo:'..keko2..''..msg.chat_id_..'', data.message_.content_.photo_.sizes_[0].photo_.persistent_id_)
 elseif (msg.content_.voice_) then 
 redis:set('tshake:'..bot_id..':voice:'..keko2, msg.content_.voice_.voice_.persistent_id_)
 elseif (msg.content_.video_) then 
 redis:set('tshake:'..bot_id..':video:'..keko2, msg.content_.video_.video_.persistent_id_)
-elseif (msg..content_.animation_) then 
-redis:set('tshake:'..bot_id..':gif:'..keko2, data.message_.content_.animation_.animation_.persistent_id_)
 elseif (msg.content_.document_) then
 redis:set('tshake:'..bot_id..':file:'..keko2, msg.content_.document_.document_.persistent_id_)
 end
