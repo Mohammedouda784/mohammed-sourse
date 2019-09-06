@@ -205,13 +205,11 @@ local admin = database:sismember('tshake:'..bot_id..'admins:', user_id)
 local owner = database:sismember('tshake:'..bot_id..'owners:'..chat_id, user_id)
 local creator = database:sismember('tshake:'..bot_id..'creator:'..chat_id, user_id)  
 local creatorbasic = database:sismember('tshake:'..bot_id..'creatorbasic:'..chat_id, user_id)  
-local vip = database:sismember('tshake:'..bot_id..'vipgp:'..chat_id, user_id)
 if mod then var = true end
 if owner then var = true end
 if creator then var = true end
 if creatorbasic then var = true end
 if admin then var = true end
-if vip then var = true end
 for k,v in pairs(sudo_users) do
 if user_id == v then var = true end end
 local keko_add_sudo = redis:get('tshake:'..bot_id..'sudoo'..user_id..'')
@@ -3875,7 +3873,7 @@ chat_kick(msg.chat_id_, apki[2])
 tsX000(apki[2],msg,"🚫¦ تم الطرد من المجموعه")
 end
 end
-if text:match("^تنزيل الكل$")and msg.reply_to_message_id_ then
+if text:match("^تنزيل الكل$")and is_mod(msg) and  msg.reply_to_message_id_ then
 function promote_by_reply(extra, result, success)
 if result.sender_user_id_ == tonumber(sudo_add) then
 send(msg.chat_id_, msg.id_, 1, "دكعد راحه هذا المطور الاساسي", 1, 'md')
@@ -4095,7 +4093,7 @@ local a = {string.match(text, "^(تعين عدد الابلاغ) (%d+)$")}
 database:set("tsahke:fel:o:me:"..bot_id..msg.chat_id_,a[2])
 send(msg.chat_id_, msg.id_, 1, "👤┇تم تعين عدد الابلاغ {"..a[2].."}", 1, 'html')
 end
-if text:match("^الاعضاء المميزين") or text:match("^المميزين") and (is_owner(msg) or is_creatorbasic(msg)) then
+if text:match("^الاعضاء المميزين$") or text:match("^المميزين$") and (is_owner(msg) or is_creatorbasic(msg)) then
 local hash =   'tshake:'..bot_id..'vipgp:'..msg.chat_id_
 local list = database:smembers(hash)
 text = "🎖¦ قائمه الاعضاء المميزين ● ،\n \n"
@@ -5768,7 +5766,7 @@ local txt = {string.match(text, "^(وضع اسم) (.*)$")}
 changetitle(msg.chat_id_, txt[2])
 send(msg.chat_id_, msg.id_, 1, '✔┇تم تحديث اسم المجموعه الى \n'..txt[2], 1, 'md')
 end
-if text:match("^وضع صوره")  then
+if text:match("^وضع صوره$")  then
 database:set('tshake:'..bot_id..'setphoto'..msg.chat_id_..':'..msg.sender_user_id_,true)
 send(msg.chat_id_, msg.id_, 1, '🌉 ⁞ قم بارسال صوره الان  ✓', 1, 'md')
 end
